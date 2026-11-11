@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#000000">
+<meta name="description" content="Редактор анимированных эмодзи и стикеров Telegram: открой .tgs, .json или .aep, поменяй цвета, добавь перелив и скачай готовый файл.">
+<title>emojilab — редактор анимированных эмодзи</title>
+<link rel="stylesheet" href="css/style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+</head>
+<body>
+
+<header class="top">
+  <div class="brand">emojilab</div>
+  <nav class="actions">
+    <button id="btnOpen">открыть файл</button>
+    <button id="btnEmoji">эмодзи</button>
+    <button id="btnJson" class="ghost" disabled>скачать json</button>
+    <button id="btnTgs" class="primary" disabled>скачать tgs</button>
+  </nav>
+  <input id="file" type="file" accept=".tgs,.json,.lottie,.aep" multiple hidden>
+</header>
+
+<main class="app">
+  <section class="stagewrap" id="drop">
+    <div class="empty" id="empty">
+      <h1>редактор эмодзи</h1>
+      <p>перетащи сюда <b>.tgs</b>, <b>.json</b> или <b>.aep</b> — или выбери готовое анимированное эмодзи</p>
+      <div class="row">
+        <button class="primary" id="emptyOpen">открыть файл</button>
+        <button id="emptyEmoji">выбрать эмодзи</button>
+      </div>
+    </div>
+
+    <div class="stage bg-dark" id="stageBox" hidden>
+      <div id="stage"></div>
+    </div>
+
+    <div class="controls" id="controls" hidden>
+      <button id="play" aria-label="пауза">❚❚</button>
+      <input id="scrub" type="range" min="0" max="100" value="0" step="1">
+      <span id="frameInfo">0 / 0</span>
+      <div class="seg" id="bgSeg">
+        <button data-bg="dark" class="on">тёмный</button>
+        <button data-bg="light">светлый</button>
+        <button data-bg="check">клетка</button>
+      </div>
+    </div>
+    <p class="note" id="aepNote" hidden></p>
+  </section>
+
+  <aside class="panel" id="panel">
+    <h2>файл</h2>
+    <p class="muted" id="meta">ничего не открыто</p>
+
+    <h2>все цвета</h2>
+    <div id="colors" class="colors"><p class="muted">появятся после открытия файла</p></div>
+
+    <h2>перелив</h2>
+    <p class="muted small">цвета будут плавно перетекать друг в друга по кругу</p>
+    <div class="row pal" id="pal">
+      <input type="color" value="#ff3b6b"><input type="color" value="#ffd23b"><input type="color" value="#3bd1ff">
+    </div>
+    <label class="field">на что применить
+      <select id="shimTarget"><option value="all">на все цвета</option></select>
+    </label>
+    <div class="row">
+      <button id="btnShim" class="primary" disabled>применить перелив</button>
+      <button id="btnReset" disabled>сбросить всё</button>
+    </div>
+
+    <h2>просмотр</h2>
+    <label class="field">скорость <output id="spdOut">1×</output>
+      <input id="speed" type="range" min="0.25" max="2" step="0.25" value="1">
+    </label>
+
+    <h2>проверка telegram</h2>
+    <ul id="checks" class="checks"><li class="muted">откроется вместе с файлом</li></ul>
+  </aside>
+</main>
+
+<div class="modal" id="emojiModal" hidden>
+  <div class="sheet">
+    <div class="sheethead">
+      <h2>анимированные эмодзи</h2>
+      <button id="closeEmoji" aria-label="закрыть">✕</button>
+    </div>
+    <input id="emojiSearch" type="search" placeholder="поиск по группе: лица, жесты, животные…">
+    <div class="tabs" id="emojiTabs"></div>
+    <div class="grid" id="emojiGrid"></div>
+    <p class="muted small">анимации загружаются с Google Noto Emoji (лицензия CC BY 4.0)</p>
+  </div>
+</div>
+
+<div class="toast" id="toast" hidden></div>
+<script src="js/emoji-list.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
